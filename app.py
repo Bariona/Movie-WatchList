@@ -37,8 +37,8 @@ def initdb(drop):
   if drop:  # 判断是否输入了选项
     db.drop_all()
   db.create_all()
-  click.echo('Initialized database.')  # 输出提示信息
-    
+  click.echo('Initialized database.') 
+
 @app.cli.command()
 def forge():
   """"Generate Fake Data."""
@@ -63,18 +63,25 @@ def forge():
   for mov in movies:
     movie = Movie(title=mov['title'], year=mov['year'])
     db.session.add(movie)
-  
   db.session.commit()
   click.echo('Done.')
-
   
-    
+  
+@app.context_processor # 处理好每个模板都要传入的参数
+def inject_user():
+    user = User.query.first() # 读取用户数据
+    return dict(user=user)  # 根据context_processor的定义不难发现这里也要返回一个dict
+                            # 类似render_template('404.html', user=user)
+                            
 @app.route('/')
 def index():
-  user = User.query.first()  # 读取用户记录
   movies = Movie.query.all()  # 读取所有电影记录
-  return render_template('index.html', user=user, movies=movies)
+  return render_template('index.html', movies=movies)
   
 @app.route('/user/<name>')
 def user_page(name):
   return f'User: {escape(name)}'
+
+@app.errorhandler(404) # 接受404状态的异常
+def page_not_found(e):
+  return render_template('404.html'), 404  # 返回模板和状态码

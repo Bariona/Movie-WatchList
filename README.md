@@ -1,3 +1,3 @@
-# WatchList by Flask
+# Movie-WatchList by Flask
 
 [Flask 教程](https://tutorial.helloflask.com/)
