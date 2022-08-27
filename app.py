@@ -26,14 +26,14 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message = 'login required'
 
-'''
+
 @login_manager.user_loader
-def load_user(user_id):  # 创建用户加载回调函数，接受用户 ID 作为参数
+def user_load(user_id):  # 创建用户加载回调函数，接受用户 ID 作为参数
   user = User.query.get(int(user_id))  # 用 ID 作为 User 模型的主键查询对应的用户
   return user
 # Flask-Login 提供了一个 current_user 变量
 # 注册这个函数的目的是，当程序运行后，如果用户已登录， current_user 变量的值会是当前用户的用户模型类记录。  
-'''
+
 
 class User(db.Model, UserMixin):  # 表名将会是 user（自动生成，小写处理）
   id = db.Column(db.Integer, primary_key=True)  # 主键
@@ -153,18 +153,18 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
   if request.method == 'POST':
-    username = request.form['username']
+    name = request.form['username']
     password = request.form['password']
 
-    if not username or not password:
+    if not name or not password:
       flash('Invalid input.')
       return redirect(url_for('login'))
 
     user = User.query.first()
     # 验证用户名和密码是否一致
-    if username == user.username and user.validate_password(password):
+    if name == user.name and user.validate_password(password):
       login_user(user)  # 登入用户
-      flash('Login success.')
+      flash('Login successfully.')
       return redirect(url_for('index'))  # 重定向到主页
 
     flash('Invalid username or password.')  # 如果验证失败，显示错误消息
