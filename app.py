@@ -94,7 +94,7 @@ def admin(name, password):
     db.session.add(user)
     
   db.session.commit()
-  click.echo('Done')
+  click.echo('Done.')
     
 
 @app.cli.command()
@@ -139,7 +139,7 @@ def index():
     title = request.form['title']
     year = request.form['year']
     if not title or not year or len(year) > 4 or len(title) > 60:
-      flash('Invalid Input.')
+      flash('Invalid input.')
       return redirect(url_for('index'))
     movie = Movie(title=title, year=year)  # 创建记录
     db.session.add(movie)  # 添加到数据库会话
