@@ -1,5 +1,8 @@
 # Movie-WatchList by Flask
 
+[成果页面](http://bariona.pythonanywhere.com/)
+> 部署在了[pythonanywhere](https://www.pythonanywhere.com/)网站上
+
 [Flask 参考教程](https://tutorial.helloflask.com/)
 
 - `url_for`: 以视图函数名作为参数，返回对应的url
